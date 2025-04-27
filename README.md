@@ -44,7 +44,3 @@ We will evaluate the outputs of these models using the following metrics:
 - **Field-level Agreement**: Comparing the extracted fields (e.g., Patient Name, Doctor Name, Medications) between the models.
 - **Prescription-level Agreement**: Assessing how consistent the models are at a higher level of abstraction.
 - **Fuzzy Matching**: Using similarity metrics such as Levenshtein distance to measure agreement between models in the extracted text.
-
-## Files and Folder Structure
-
-The project folder structure is organized as follows:
