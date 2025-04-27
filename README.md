@@ -1,75 +1,50 @@
 # Medical Prescription Extraction Pipeline
 
-This repository was created with the help of **ChatGPT**.
+This repository was created with the help of ChatGPT.
 
-## Project Overview
+## Preprocessing Improvement
 
-The **Medical Prescription Extraction Pipeline** aims to extract structured data from illegible medical prescription images. The project uses advanced image preprocessing techniques to enhance image quality and deploys machine learning models to parse the text and structure it into a usable format.
+In the preprocessing stage, several techniques were applied to improve the quality of the OCR (Optical Character Recognition) results. This involved:
+1. **Denoising**: Reducing image noise that could interfere with text recognition.
+2. **Contrast Enhancement**: Improving image contrast to make text stand out more clearly.
+3. **Sharpening**: Sharpening the image to further improve text clarity.
+4. **Resizing**: Resizing the images to ensure they are of optimal dimensions for text extraction.
 
-### Key Features:
-- Preprocessing of prescription images to improve OCR accuracy.
-- Use of **Google Gemini 1.5 Pro** to extract structured data from the preprocessed images.
-- Evaluation of model accuracy and performance.
-- Results stored in structured JSON format for easy querying.
+The improvements were validated through a histogram of OCR improvement percentages, showing a significant increase in detected text compared to the original images.
 
-## Preprocessing Improvements
-
-The preprocessing step is crucial in improving the performance of Optical Character Recognition (OCR) models. Some improvements included in the pipeline are:
-
-1. **Denoising**: Using advanced denoising techniques to remove noise and enhance the clarity of prescription images.
-2. **Contrast Enhancement**: Applying Contrast Limited Adaptive Histogram Equalization (CLAHE) to improve contrast for better OCR performance.
-3. **Sharpening**: Using kernel-based sharpening techniques to enhance the details of the image, making the text clearer for OCR.
-4. **Resizing**: Scaling the image to a consistent size to ensure uniformity for model processing.
-
-### Preprocessed Image Comparisons
-
-The preprocessing step has resulted in a noticeable improvement in the OCR accuracy. The graph below shows the improvement in OCR performance after applying preprocessing techniques to the images:
-
-![OCR Improvement Histogram](comparison_figures/improvement_histogram.png)
+![Improvement Histogram](comparison_figures/improvement_histogram.png)
 
 ## Running Google Gemini on Preprocessed Data
 
-Once the images are preprocessed, we send them to the **Google Gemini 1.5 Pro** model for structured data extraction. The **Gemini model** generates structured output, extracting key fields such as:
+After preprocessing the images, we used the Google Gemini 1.5 Pro model to extract structured information from the images. The extracted data includes:
+- **Patient Name**
+- **Doctor Name**
+- **Date**
+- **Medications (Name, Dosage, Frequency, Duration)**
+- **Special Instructions**
 
-- Patient Name
-- Doctor Name
-- Date
-- Medications
-- Special Instructions
+The data was saved in a structured JSON format, which can be further analyzed and used for the final evaluation.
 
-This structured output is then saved in JSON format for easy further processing and querying. 
+## Initial Limited Manual Evaluation
+
+Before moving on to a more extensive evaluation with multiple models, we conducted a limited manual cross-check of the data extracted by Google Gemini from the preprocessed images. The initial results show that the model is reasonably able to extract meaningful information, with almost correct patient and doctor names as well as drug prescriptions. This manual check was performed to assess the model's current capabilities in extracting structured information.
+
+### Key Findings:
+- **Patient and Doctor Names**: The model successfully extracts correct or near-correct names in most cases.
+- **Drug Prescriptions**: The model accurately identifies medication names and their associated details, such as dosage and frequency, in most instances.
 
 ## Future Evaluation Strategy
 
-The current pipeline uses the **Google Gemini 1.5 Pro model** for extracting structured data from prescription images. However, in the future, we plan to evaluate the performance of the pipeline using **three different models** to ensure better extraction accuracy and reliability:
+In the future, we plan to expand the evaluation to compare the performance of three state-of-the-art models:
+1. **Google Gemini 1.5 Pro**
+2. **OpenAI GPT-4 Vision**
+3. **Anthropic Claude 3 Opus**
 
-1. **OpenAI GPT-4 Vision**: A multimodal model capable of analyzing images and generating structured output.
-2. **Google Gemini 1.5 Pro**: A state-of-the-art model we are currently using in this pipeline.
-3. **Anthropic Claude 3 Opus**: Another high-performance multimodal model to compare results.
+We will evaluate the outputs of these models using the following metrics:
+- **Field-level Agreement**: Comparing the extracted fields (e.g., Patient Name, Doctor Name, Medications) between the models.
+- **Prescription-level Agreement**: Assessing how consistent the models are at a higher level of abstraction.
+- **Fuzzy Matching**: Using similarity metrics such as Levenshtein distance to measure agreement between models in the extracted text.
 
-Each model's output will be compared for **field-level agreement**, **prescription-level agreement**, and **fuzzy matching** to assess consistency across different models.
+## Files and Folder Structure
 
-## Setup Instructions
-
-To get started, please follow these instructions to set up the environment:
-
-1. **Install the required dependencies** by running:
-    ```bash
-    pip install -r requirements.txt
-    ```
-
-2. **Install Tesseract OCR**:
-    - Follow the instructions in `install_tesseract_instructions.md` to install Tesseract OCR on your system.
-
-3. **Run Preprocessing Script**:
-    - Execute `preprocessing.py` to preprocess the prescription images in your input folder.
-
-4. **Run Google Gemini Modeling Script**:
-    - Execute `modelling_gemini.py` to send the preprocessed images to the **Google Gemini 1.5 Pro model** and get structured JSON output.
-
-5. **View Structured Output**:
-    - Use `structured_output.py` to load and search through the extracted structured data.
-
-## License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+The project folder structure is organized as follows:
